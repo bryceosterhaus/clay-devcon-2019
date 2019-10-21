@@ -1,0 +1,32 @@
+{
+	"tundra": {
+		"baseColor": "9A9A9A",
+		"cushionColor": "E1E1E1",
+		"legColor": "513B4E",
+		"pillowColor": "CBCBCB"
+	},
+	"mean-green": {
+		"baseColor": "F7FF00",
+		"cushionColor": "278F0D",
+		"legColor": "19780C",
+		"pillowColor": "070708"
+	},
+	"material": {
+		"baseColor": "546e7a",
+		"cushionColor": "263238",
+		"legColor": "64fcda",
+		"pillowColor": "40c4ff"
+	},
+	"dracula": {
+		"baseColor": "000000",
+		"cushionColor": "7F26FF",
+		"legColor": "7F26FF",
+		"pillowColor": "AF78FF"
+	},
+	"dessert": {
+		"baseColor": "C64711",
+		"cushionColor": "E1760D",
+		"legColor": "514B4E",
+		"pillowColor": "F6A036"
+	}
+}

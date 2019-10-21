@@ -1,0 +1,38 @@
+{
+	"name": "sofa-customizer",
+	"version": "1.0.0",
+	"description": "",
+	"keywords": [],
+	"main": "src/index.js",
+	"dependencies": {
+		"@clayui/button": "3.0.0",
+		"@clayui/color-picker": "3.0.0",
+		"@clayui/css": "3.0.0",
+		"@clayui/form": "3.0.0",
+		"@clayui/icon": "^3.0.0",
+		"@clayui/list": "^3.0.0",
+		"@clayui/loading-indicator": "^3.0.0",
+		"@clayui/modal": "^3.0.0",
+		"@clayui/navigation-bar": "^3.0.0",
+		"@clayui/slider": "3.0.0",
+		"@clayui/sticker": "^3.0.0",
+		"react": "16.8.6",
+		"react-dom": "16.8.6",
+		"react-scripts": "3.0.1"
+	},
+	"devDependencies": {
+		"typescript": "3.3.3"
+	},
+	"scripts": {
+		"start": "react-scripts start",
+		"build": "react-scripts build",
+		"test": "react-scripts test --env=jsdom",
+		"eject": "react-scripts eject"
+	},
+	"browserslist": [
+		">0.2%",
+		"not dead",
+		"not ie <= 11",
+		"not op_mini all"
+	]
+}
