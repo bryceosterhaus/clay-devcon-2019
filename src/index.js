@@ -3,6 +3,8 @@ import '@clayui/css/lib/css/atlas.css';
 
 // Utils for color manipulation
 import {getRGB, rgbToHex} from './utils';
+import ClayButton from '@clayui/button';
+import ClayNavigationBar from '@clayui/navigation-bar';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -13,15 +15,23 @@ import Sofa, {PARTS} from './Sofa';
 const spritemap = '/icons.svg';
 
 function App() {
+	const defaultPalettesRef = React.useRef({});
+	const defaultPaletteNamesRef = React.useRef([]);
+
+	const [activePalette, setActivePalette] = React.useState(false);
 	const [palette, setPalette] = React.useState({});
 
 	React.useEffect(() => {
 		fetch(`/data/presets.json`)
 			.then(response => response.json())
 			.then(data => {
-				const paletteName = Object.keys(data)[0];
+				defaultPalettesRef.current = data;
+				defaultPaletteNamesRef.current = Object.keys(data);
 
-				setPalette(data[paletteName]);
+				const paletteName = defaultPaletteNamesRef.current[0];
+
+				setActivePalette(paletteName);
+				setPalette(defaultPalettesRef.current[paletteName]);
 			});
 	}, []);
 
@@ -35,7 +45,27 @@ function App() {
 				</div>
 			</nav>
 
-			{/** Navigation */}
+			<ClayNavigationBar triggerLabel="Palette">
+				{defaultPaletteNamesRef.current.map(item => (
+					<ClayNavigationBar.Item
+						key={item}
+						active={activePalette === item}
+					>
+						<ClayButton
+							block
+							className="nav-link"
+							displayType="unstyled"
+							small
+							onClick={() => {
+								setActivePalette(item);
+								setPalette(defaultPalettesRef.current[item]);
+							}}
+						>
+							{item}
+						</ClayButton>
+					</ClayNavigationBar.Item>
+				))}
+			</ClayNavigationBar>
 
 			<div className="container">
 				<div className="row align-items-center justify-content-center">
