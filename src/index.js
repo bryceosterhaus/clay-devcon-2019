@@ -5,6 +5,7 @@ import '@clayui/css/lib/css/atlas.css';
 import {getRGB, rgbToHex} from './utils';
 import {ClaySelect} from '@clayui/form';
 import ClayButton from '@clayui/button';
+import ClayColorPicker from '@clayui/color-picker';
 import ClayNavigationBar from '@clayui/navigation-bar';
 import React from 'react';
 import ReactDOM from 'react-dom';
@@ -94,6 +95,21 @@ function App() {
 									/>
 								))}
 							</ClaySelect>
+
+							<br />
+
+							<label>Color</label>
+							<ClayColorPicker
+								onValueChange={color => {
+									setPalette({
+										...palette,
+										...{
+											[`${activePart}Color`]: color
+										}
+									});
+								}}
+								value={palette[`${activePart}Color`]}
+							/>
 						</div>
 					</div>
 				</div>
