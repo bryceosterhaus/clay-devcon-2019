@@ -13,6 +13,18 @@ import Sofa, {PARTS} from './Sofa';
 const spritemap = '/icons.svg';
 
 function App() {
+	const [palette, setPalette] = React.useState({});
+
+	React.useEffect(() => {
+		fetch(`/data/presets.json`)
+			.then(response => response.json())
+			.then(data => {
+				const paletteName = Object.keys(data)[0];
+
+				setPalette(data[paletteName]);
+			});
+	}, []);
+
 	return (
 		<>
 			<nav className="application-bar application-bar-dark navbar">
@@ -27,7 +39,7 @@ function App() {
 
 			<div className="container">
 				<div className="row align-items-center justify-content-center">
-					<Sofa />
+					<Sofa {...palette} />
 				</div>
 			</div>
 		</>
