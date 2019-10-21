@@ -6,7 +6,9 @@ import {getRGB, rgbToHex} from './utils';
 import {ClaySelect} from '@clayui/form';
 import ClayButton from '@clayui/button';
 import ClayColorPicker from '@clayui/color-picker';
+import ClayLoadingIndicator from '@clayui/loading-indicator';
 import ClayNavigationBar from '@clayui/navigation-bar';
+import ClaySlider from '@clayui/slider';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -16,6 +18,65 @@ import Sofa, {PARTS} from './Sofa';
 // Location of clay-css icons
 const spritemap = '/icons.svg';
 
+function Slider({label, onValueChange, value}) {
+	return (
+		<div className="form-group">
+			<label>{`${label}: ${value}`}</label>
+
+			<ClaySlider
+				max={255}
+				name={label}
+				onValueChange={onValueChange}
+				value={value}
+			/>
+		</div>
+	);
+}
+
+function ColorCustomizer({onChangeColor, color, defaultColor}) {
+	const {r, g, b} = getRGB(color);
+
+	const setColor = (red, green, blue) =>
+		onChangeColor(rgbToHex(red, green, blue));
+
+	return (
+		<div>
+			<ClayColorPicker
+				onValueChange={onChangeColor}
+				spritemap={spritemap}
+				value={color}
+			/>
+
+			<br />
+
+			<Slider
+				label="Red"
+				onValueChange={val => setColor(val, g, b)}
+				value={r}
+			/>
+
+			<Slider
+				label="Green"
+				onValueChange={val => setColor(r, val, b)}
+				value={g}
+			/>
+
+			<Slider
+				label="Blue"
+				onValueChange={val => setColor(r, g, val)}
+				value={b}
+			/>
+
+			<ClayButton
+				displayType="secondary"
+				onClick={() => onChangeColor(defaultColor)}
+			>
+				{'Reset'}
+			</ClayButton>
+		</div>
+	);
+}
+
 function App() {
 	const defaultPalettesRef = React.useRef({});
 	const defaultPaletteNamesRef = React.useRef([]);
@@ -23,6 +84,7 @@ function App() {
 	const [activePalette, setActivePalette] = React.useState(false);
 	const [activePart, setActivePart] = React.useState(PARTS[0].part);
 	const [palette, setPalette] = React.useState({});
+	const [loading, setLoading] = React.useState(true);
 
 	React.useEffect(() => {
 		fetch(`/data/presets.json`)
@@ -35,6 +97,7 @@ function App() {
 
 				setActivePalette(paletteName);
 				setPalette(defaultPalettesRef.current[paletteName]);
+				setLoading(false);
 			});
 	}, []);
 
@@ -99,17 +162,25 @@ function App() {
 							<br />
 
 							<label>Color</label>
-							<ClayColorPicker
-								onValueChange={color => {
-									setPalette({
-										...palette,
-										...{
-											[`${activePart}Color`]: color
-										}
-									});
-								}}
-								value={palette[`${activePart}Color`]}
-							/>
+							{loading && <ClayLoadingIndicator />}
+							{!loading && (
+								<ColorCustomizer
+									onChangeColor={color => {
+										setPalette({
+											...palette,
+											...{
+												[`${activePart}Color`]: color
+											}
+										});
+									}}
+									color={palette[`${activePart}Color`]}
+									defaultColor={
+										defaultPalettesRef.current[
+											activePalette
+										][`${activePart}Color`]
+									}
+								/>
+							)}
 						</div>
 					</div>
 				</div>
