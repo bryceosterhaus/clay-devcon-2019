@@ -7,7 +7,13 @@ export const PARTS = [
 	{label: 'Pillows', part: 'pillow'}
 ];
 
-export default function Sofa({baseColor, cushionColor, legColor, pillowColor}) {
+export default function Sofa({
+	baseColor,
+	cushionColor,
+	legColor,
+	pillowColor,
+	...otherProps
+}) {
 	return (
 		<svg
 			version="1.1"
@@ -17,6 +23,7 @@ export default function Sofa({baseColor, cushionColor, legColor, pillowColor}) {
 			y="0px"
 			viewBox="0 0 1050 445"
 			width="80%"
+			{...otherProps}
 		>
 			<g>
 				<path

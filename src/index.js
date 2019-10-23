@@ -6,11 +6,13 @@ import {getRGB, rgbToHex} from './utils';
 import {ClaySelect} from '@clayui/form';
 import ClayButton from '@clayui/button';
 import ClayIcon from '@clayui/icon';
+import ClayList from '@clayui/list';
 import ClaySticker from '@clayui/sticker';
 import ClayColorPicker from '@clayui/color-picker';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
 import ClayNavigationBar from '@clayui/navigation-bar';
 import ClaySlider from '@clayui/slider';
+import {ClayModalProvider, Context as ClayModalContext} from '@clayui/modal';
 import React from 'react';
 import ReactDOM from 'react-dom';
 
@@ -80,6 +82,7 @@ function ColorCustomizer({onChangeColor, color, defaultColor}) {
 }
 
 function App() {
+	const [modalState, modalDispatch] = React.useContext(ClayModalContext);
 	const defaultPalettesRef = React.useRef({});
 	const defaultPaletteNamesRef = React.useRef([]);
 
@@ -122,6 +125,45 @@ function App() {
 								className="nav-link"
 								displayType="unstyled"
 								style={{position: 'relative'}}
+								onClick={() => {
+									modalDispatch({
+										payload: {
+											body: (
+												<ClayList>
+													{cart.map((item, i) => (
+														<ClayList.Item key={i}>
+															<ClayList.ItemField>
+																{i + 1}
+															</ClayList.ItemField>
+															<ClayList.ItemField>
+																<Sofa
+																	{...item}
+																	style={{
+																		height: 50,
+																		width:
+																			'auto'
+																	}}
+																/>
+															</ClayList.ItemField>
+														</ClayList.Item>
+													))}
+												</ClayList>
+											),
+											footer: [
+												,
+												,
+												<ClayButton
+													onClick={modalState.onClose}
+												>
+													{'Close'}
+												</ClayButton>
+											],
+											header: `Shopping Cart (${cart.length})`,
+											size: 'lg'
+										},
+										type: 1
+									});
+								}}
 							>
 								<ClayIcon
 									spritemap={spritemap}
@@ -218,9 +260,7 @@ function App() {
 						</div>
 
 						<div className="sheet-footer">
-							<ClayButton
-								onClick={() => addToCart(activePalette)}
-							>
+							<ClayButton onClick={() => addToCart(palette)}>
 								Add to Cart
 							</ClayButton>
 						</div>
