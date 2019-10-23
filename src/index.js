@@ -5,6 +5,8 @@ import '@clayui/css/lib/css/atlas.css';
 import {getRGB, rgbToHex} from './utils';
 import {ClaySelect} from '@clayui/form';
 import ClayButton from '@clayui/button';
+import ClayIcon from '@clayui/icon';
+import ClaySticker from '@clayui/sticker';
 import ClayColorPicker from '@clayui/color-picker';
 import ClayLoadingIndicator from '@clayui/loading-indicator';
 import ClayNavigationBar from '@clayui/navigation-bar';
@@ -85,6 +87,11 @@ function App() {
 	const [activePart, setActivePart] = React.useState(PARTS[0].part);
 	const [palette, setPalette] = React.useState({});
 	const [loading, setLoading] = React.useState(true);
+	const [cart, setCart] = React.useState([]);
+
+	const addToCart = item => {
+		setCart([...cart, item]);
+	};
 
 	React.useEffect(() => {
 		fetch(`/data/presets.json`)
@@ -108,6 +115,33 @@ function App() {
 					<div className="navbar-title navbar-text-truncate">
 						Hip Sofa Store
 					</div>
+
+					<ul className="navbar-nav">
+						<li className="nav-item">
+							<ClayButton
+								className="nav-link"
+								displayType="unstyled"
+								style={{position: 'relative'}}
+							>
+								<ClayIcon
+									spritemap={spritemap}
+									symbol="shopping-cart"
+								/>
+
+								{!!cart.length && (
+									<ClaySticker
+										displayType="warning"
+										shape="circle"
+										size="sm"
+										outside
+										position="top-right"
+									>
+										{cart.length}
+									</ClaySticker>
+								)}
+							</ClayButton>
+						</li>
+					</ul>
 				</div>
 			</nav>
 
@@ -181,6 +215,14 @@ function App() {
 									}
 								/>
 							)}
+						</div>
+
+						<div className="sheet-footer">
+							<ClayButton
+								onClick={() => addToCart(activePalette)}
+							>
+								Add to Cart
+							</ClayButton>
 						</div>
 					</div>
 				</div>
