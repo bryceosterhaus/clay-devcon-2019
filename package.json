@@ -21,18 +21,30 @@
 		"react-scripts": "3.0.1"
 	},
 	"devDependencies": {
-		"typescript": "3.3.3"
+		"typescript": "3.3.3",
+		"liferay-npm-build-support": "2.14.2-alpha.0+b568941",
+		"liferay-npm-bundler": "2.14.2-alpha.0+b568941",
+		"liferay-npm-bundler-preset-create-react-app": "2.14.2-alpha.0+b568941"
 	},
 	"scripts": {
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "react-scripts test --env=jsdom",
-		"eject": "react-scripts eject"
+		"eject": "react-scripts eject",
+		"build:liferay": "lnbs-build",
+		"deploy:liferay": "yarn run build:liferay && lnbs-deploy"
 	},
 	"browserslist": [
 		">0.2%",
 		"not dead",
 		"not ie <= 11",
 		"not op_mini all"
-	]
+	],
+	"portlet": {
+		"com.liferay.portlet.display-category": "category.sample",
+		"com.liferay.portlet.instanceable": true,
+		"javax.portlet.name": "sofacustomizer",
+		"javax.portlet.security-role-ref": "power-user,user",
+		"javax.portlet.resource-bundle": "content.Language"
+	}
 }
